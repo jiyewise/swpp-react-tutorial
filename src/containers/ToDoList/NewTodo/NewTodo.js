@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './NewTodo.css'
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 class NewTodo extends Component {
     state = {
@@ -7,7 +8,15 @@ class NewTodo extends Component {
         content: '',
         submitted: false,
     }
+    postTodoHandler = () => {
+        const data = { title: this.state.title, content: this.state. content };
+        alert('Submitted\n'+ data.title + '\n'+data.content)
+        this.setState({submitted: true})
+    }
     render() {
+        if (this.state.submitted){
+            return <Redirect to='/todos'></Redirect>
+        }
         return(
             <div className="NewTodo">
             <h1>Add a Todo</h1>
@@ -17,7 +26,7 @@ class NewTodo extends Component {
             <label>Content</label>
             <textarea rows="4" type="text" value={this.state.content}
                 onChange={(event)=> this.setState({content: event.target.value})} />
-            <button onClick={()=> alert('Submitted')}>Submit</button>
+            <button onClick={()=> this.postTodoHandler()}>Submit</button>
         </div>
         )
     }
